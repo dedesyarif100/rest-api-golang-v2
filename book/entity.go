@@ -13,10 +13,11 @@ type Book struct {
 	UpdatedAt	time.Time
 }
 
-type Assets struct {
+type Order struct {
 	ID			int
-	Name		string
-	Code		string
+	Amount		int
+	State		string
 	CreatedAt	time.Time
 	UpdatedAt	time.Time
+	DeletedAt   time.Time
 }
