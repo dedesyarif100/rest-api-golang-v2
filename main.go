@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	// "errors"
 	"fmt"
 	"log"
 	"rest-api-golang/book"
@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	// "time"
+
+	"time"
+	// "reflect"
 )
 
 func main() {
@@ -25,70 +27,115 @@ func main() {
 
 	// CRUD
 	// CREATE DATA FROM MIGRATION ==============================================================================
+		var users []book.User
+		var books []book.Book
 		// TABLE BOOKS
-			// db.AutoMigrate(&book.Book{}); // UNTUK MIGRATE COLUMN / TABEL
-			// title := []string{"DEDE", "TRISULI", "HENDRS", "RIAND", "ALI", "MIRDAS"}
-			// age := []int{22, 25, 23, 26, 21, 20}
-			// description := []string{
-			// 	"buku php laravel",
-			// 	"buku mysql golang",
-			// 	"buku laravel mysql",
-			// 	"buku golang php",
-			// 	"php react",
-			// 	"laravel vue",
+			db.AutoMigrate(&book.Book{}); // UNTUK MIGRATE COLUMN / TABEL
+			title := []string{"DEDE", "TRISULI", "HENDRS", "RIAND", "ALI", "MIRDAS", "MA'ARIF"}
+			age := []int{22, 25, 23, 26, 21, 20, 24}
+			description := []string{
+				"buku php laravel",
+				"buku mysql golang",
+				"buku laravel mysql",
+				"buku golang php",
+				"php react",
+				"laravel vue",
+				"vue react",
+			}
+			price := []int{
+				110000,
+				115000,
+				120000,
+				125000,
+				130000,
+				135000,
+				140000,
+			}
+			rating := []int64{2, 4, 6, 8, 10, 12, 14}
+			discount := []int64{12, 14, 16, 18, 20, 22, 24}
+			// created_at := []string{
+			// 	"2022-05-27 20:04:36",
+			// 	"2022-05-27 21:04:36",
+			// 	"2022-05-27 22:04:36",
+			// 	"2022-05-27 23:04:36",
+			// 	"2022-05-28 00:04:36",
+			// 	"2022-05-28 01:04:36",
 			// }
-			// price := []int{
-			// 	110000,
-			// 	115000,
-			// 	120000,
-			// 	125000,
-			// 	130000,
-			// 	135000,
-			// }
-			// rating := []int64{2, 4, 6, 8, 10, 12}
-			// discount := []int64{12, 14, 16, 18, 20, 22}
-			// // created_at := []string{
-			// // 	"2022-05-27 20:04:36",
-			// // 	"2022-05-27 21:04:36",
-			// // 	"2022-05-27 22:04:36",
-			// // 	"2022-05-27 23:04:36",
-			// // 	"2022-05-28 00:04:36",
-			// // 	"2022-05-28 01:04:36",
-			// // }
 
-			// for key, data := range title {
-			// 	insertData := book.Book{}
-			// 	insertData.Title = data
-			// 	insertData.Age = age[key]
-			// 	insertData.Description = description[key]
-			// 	insertData.Price = price[key]
-			// 	insertData.Rating = int(rating[key])
-			// 	// insertData.CreatedAt = created_at[key]
-			// 	insertData.Discount = int(discount[key])
-			// 	err = db.Create(&insertData).Error
-			// 	if err != nil {
-			// 		fmt.Println("==========================")
-			// 		fmt.Println("Error creating book record FROM MIGRATION")
-			// 		fmt.Println("==========================")
-			// 	}
-			// }
+			for key, data := range title {
+				insertData := book.Book{}
+				insertData.Title = data
+				insertData.Age = age[key]
+				insertData.Description = description[key]
+				insertData.Price = price[key]
+				insertData.Rating = int(rating[key])
+				// insertData.CreatedAt = created_at[key]
+				insertData.Discount = int(discount[key])
+				err = db.Create(&insertData).Error
+				if err != nil {
+					fmt.Println("==========================")
+					fmt.Println("Error creating book record FROM MIGRATION")
+					fmt.Println("==========================")
+				}
+			}
+
+		// TABLE USER
+			db.AutoMigrate(&book.User{});
+			nameUser := []string{"USER A", "USER B", "USER C", "USER D", "USER E"}
+			// ageUser := []int{22, 22}
+			for _, data := range nameUser {
+				insertData := book.User{}
+				insertData.Name = data
+				insertData.Age = 22
+				err = db.Create(&insertData).Error
+				if err != nil {
+					fmt.Println("==========================")
+					fmt.Println("Error creating ORDERS record FROM MIGRATION")
+					fmt.Println("==========================")
+				}
+			}
 
 		// TABLE ORDER
-			// db.AutoMigrate(&book.Order{}); // UNTUK MIGRATE COLUMN / TABEL
-			// amount := []int{10000, 20000, 30000}
-			// state := []string{"PAID", "UNPAID", "UNKNOW"}
-			// for key, data := range amount {
-			// 	insertData := book.Order{}
-			// 	insertData.Amount = data
-			// 	insertData.State = state[key]
-			// 	insertData.DeletedAt = time.Now()
-			// 	err = db.Create(&insertData).Error
-			// 	if err != nil {
-			// 		fmt.Println("==========================")
-			// 		fmt.Println("Error creating book record FROM MIGRATION")
-			// 		fmt.Println("==========================")
-			// 	}
-			// }
+			db.AutoMigrate(&book.Order{}); // UNTUK MIGRATE COLUMN / TABEL
+			amount := []int{10000, 20000, 30000}
+			state := []string{"PAID", "UNPAID", "UNKNOW"}
+			for key, data := range amount {
+				insertData := book.Order{}
+				db.Debug().Find(&users)
+				insertData.UserId = users[key].ID
+				db.Debug().Find(&books)
+				insertData.BookId = books[key].ID
+				insertData.Amount = data
+				insertData.State = state[key]
+				insertData.DeletedAt = time.Now()
+				err = db.Create(&insertData).Error
+				if err != nil {
+					fmt.Println("==========================")
+					fmt.Println("Error creating ORDERS record FROM MIGRATION")
+					fmt.Println("==========================")
+				}
+			}
+
+		// TABLE CREDIT CARDS
+			db.AutoMigrate(&book.CreditCard{})
+			nameCards := []string{"BRI", "BNI", "BCA", "MANDIRI", "CIMB", "DANAMON", "BANK JATIM"}
+			numberCards := []int{111, 112, 113, 114, 115, 116, 117}
+			for key, data := range nameCards {
+				insertData := book.CreditCard{}
+				db.Debug().Find(&books)
+				insertData.BookId = books[key].ID
+				insertData.Name = data
+				insertData.Number = numberCards[key]
+				err = db.Create(&insertData).Error
+				if err != nil {
+					fmt.Println("==========================")
+					fmt.Println("Error creating CREDIT CARDS record FROM MIGRATION")
+					fmt.Println("==========================")
+				}
+			}
+
+		// TABLE RESULT
+			db.AutoMigrate(&book.Result{})
 
 	// insertData := book.Book{};
 	// insertData.Title = "HENDRS"
@@ -106,7 +153,7 @@ func main() {
 	// CREATE DATA FROM MIGRATION ==============================================================================
 
 	// GET DATA
-	var books []book.Book	
+	// var books []book.Book
 	// QUERY
 		// Retrieving a single object
 			// err = db.Debug().First(&books).Error
@@ -115,12 +162,50 @@ func main() {
 			// err = db.Debug().First(&books, 3).Error
 			// err = db.Debug().Last(&books).Find(&books).Error
 
-			result := db.Debug().Find(&books)
-			fmt.Println("COUNT OF RECORDS :",result.RowsAffected)
-			fmt.Println("ERROR :",result.Error)
-			fmt.Println(errors.Is(result.Error, gorm.ErrRecordNotFound))
+			// result := db.Debug().Find(&books)
+			// fmt.Println("COUNT OF RECORDS :",result.RowsAffected)
+			// fmt.Println("ERROR :",result.Error)
+			// fmt.Println(errors.Is(result.Error, gorm.ErrRecordNotFound))
 
+			// result2 := map[string]interface{}{}
+			// db.Model(&books).Find(&result2)
+			// db.Table("books").Take(&result2)
+			// fmt.Println("DATA BOOKS :", books)
 
+			// db.Debug().Find(&books, []int{1, 2, 3})
+			// fmt.Println("DATA BOOKS :", books)
+
+			// db.First(&book.Book{ID: 2})
+			// fmt.Println("DATA BOOKS :", books)
+			// fmt.Println("DATA BOOKS :", books)
+
+			// Retrieving objects with primary key
+				// db.Debug().First(&books, "2")
+				// fmt.Println("DATA BOOKS :", books)
+
+				// db.Debug().Find(&books, []int{1, 2, 3})
+				// fmt.Println("DATA BOOKS :", books)
+
+				// val := book.Book{ID: 2}
+				// db.Debug().First(&val)
+				// fmt.Println("DATA BOOKS :", val)
+
+				// val := book.Book{}
+				// db.Debug().Model(book.Book{ID: 2}).First(&val)
+				// fmt.Println("DATA BOOKS :", val)
+
+			// Retrieving all objects
+				// result := db.Debug().Find(&books) 
+				// fmt.Println("DATA BOOKS :", books)
+				// println()
+				// fmt.Println("RESULT :", result.RowsAffected)
+
+				
+			// type num struct {
+			// 	ID int
+			// }
+			// val := time.Now()
+			// fmt.Println("CEK TYPE : ", reflect.TypeOf(val))
 
 	// String Conditions
 		// err = db.Debug().Where("title = ?", "HENDRS").First(&books).Error
@@ -133,6 +218,8 @@ func main() {
 		// err = db.Debug().Where("created_at BETWEEN ? AND ?", "2022-05-27 21:00:00", "2022-05-27 23:00:00").Find(&books).Error
 
 	// Struct & Map Conditions
+		// err = db.Debug().Where(&book.Book{Title: "DEDE", Age: 22}).Find(&books).Error
+		// fmt.Println(books)
 		// err = db.Debug().Where(map[string]interface{}{"title": "HENDRS", "price": "150000"}).Find(&books).Error // Map
 		// err = db.Debug().Where([]int64{2, 4}).Find(&books).Error; // Slice of primary keys
 
@@ -224,7 +311,30 @@ func main() {
 			// fmt.Println("JUMLAH DATA DISTICNT BOOKS :",count)
 
 		// Group By & Having
+
+		// Joins
+			// db.Debug().Model(&books).Select("books.title").Joins("JOIN orders ON orders.book_id = books.id").Scan(&books)
+
+			// db.Debug().Table("books").Select("books.title, orders.state").Joins("JOIN orders ON orders.book_id = books.id").Scan(&books)
 			
+			// multiple joins with parameter
+			// db.Debug().Joins("JOIN orders ON orders.book_id = books.id AND orders.state = ?", "UNKNOW").Joins("JOIN credit_cards ON credit_cards.book_id = books.id").Where("credit_cards.number = ?", "113").Find(&books)
+			// db.Debug().Joins("JOIN orders ON orders.book_id = books.id AND orders.state = ?", "UNKNOW").Find(&books)
+			// db.Debug().Joins("JOIN credit_cards ON credit_cards.book_id = books.id").Where("credit_cards.number = ?", "117").Find(&books)
+			// db.Debug().Joins("JOIN credit_cards ON credit_cards.book_id = books.id AND credit_cards.number = ?", "116").Find(&books)
+			// println()
+			// fmt.Println("DATA BOOKS :", books)
+			// println()
+
+		// Joins Preloading
+			
+			// println()
+			// println( db.Debug().Joins("credit_cards").Find(&books) )
+
+		// Scan
+			// db.Debug().Table("books").Select("title").Where("title = ?", "dede").Scan(&books)
+			// db.Debug().Raw("SELECT title, age FROM books WHERE title = ?", "RIAND").Scan(&books)
+			// fmt.Println(books)
 
 
 	// if err != nil {
@@ -283,7 +393,7 @@ func main() {
 	v2.GET("/books/:id/:title", handler.BooksHandler);
 	v2.GET("/query", handler.QueryHandler);
 	v2.POST("/books", handler.BooksPostHandler);
-	router.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	router.Run(":9999") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 	// LIST EXAMPLE API ============================================================================
 }
 
