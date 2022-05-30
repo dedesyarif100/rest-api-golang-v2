@@ -25,6 +25,7 @@ func HelloHandler(c *gin.Context) {
 
 func BooksHandler(c *gin.Context) {
 	id := c.Param("id");
+	fmt.Println("CEK ID :",id)
 	title := c.Param(("title"));
 	c.JSON(http.StatusOK, gin.H{
 		"id": id,
@@ -43,8 +44,9 @@ func QueryHandler(c *gin.Context) {
 
 func BooksPostHandler(c *gin.Context) {
 	var bookInput book.BookInput
-
+	
 	err := c.ShouldBindJSON(&bookInput)
+	// fmt.Println("CEK DATA :",bookInput.Title)
 	if err != nil {
 		fmt.Println("MASUK :", err);
 

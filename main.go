@@ -4,13 +4,13 @@ import (
 	// "errors"
 	"fmt"
 	"log"
+	// "net/http"
 	"rest-api-golang/book"
 	"rest-api-golang/handler"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-
 	// "time"
 	// "reflect"
 )
@@ -341,17 +341,29 @@ func main() {
 			// db.Debug().Find(&book.User{}).Pluck("age", &ages)
 			// fmt.Println("VALUE AGES :",ages)
 
-			var id []int
 			// var names []string
-			db.Debug().Model(&book.User{}).Pluck("age", &id)
-			fmt.Println("VALUE NAMES :",id)
+			// db.Debug().Model(&book.User{}).Pluck("name", &names)
+			// fmt.Println("VALUE NAMES :",names)
 
+			// var id []int
+			// db.Debug().Model(&book.User{}).Pluck("id", &id)
+			// fmt.Println("VALUE ID :",id)
+
+			// var names []string
+			// db.Debug().Table("users").Pluck("name", &names)
+			// fmt.Println("VALUE NAMES :",names)
+
+			// db.Debug().Table("books").Pluck("title", &names)
+			// fmt.Println("VALUE BOOKS :",names)
+
+			// var books []book.Book
+			// db.Debug().Select("title, description").Find(&books)
+			// fmt.Println("VALUE BOOKS :",books[1].Title)
 
 		// Scan
 			// db.Debug().Table("books").Select("title").Where("title = ?", "dede").Scan(&books)
 			// db.Debug().Raw("SELECT title, age FROM books WHERE title = ?", "RIAND").Scan(&books)
 			// fmt.Println(books)
-
 
 	// if err != nil {
 	// 	fmt.Println("==========================")
@@ -409,7 +421,67 @@ func main() {
 	v2.GET("/books/:id/:title", handler.BooksHandler);
 	v2.GET("/query", handler.QueryHandler);
 	v2.POST("/books", handler.BooksPostHandler);
-	router.Run(":9999") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 	// LIST EXAMPLE API ============================================================================
+
+	create := router.Group("/createExampleOne");
+	// CREATE DATA ============================================================================
+	create.POST("/book", CreateBook);
+	// CREATE DATA ============================================================================
+
+	// UPDATE DATA ============================================================================
+	create.PUT("/book/:id", UpdateBook);
+	// UPDATE DATA ============================================================================
+
+	// DELETE DATA ============================================================================
+	create.DELETE("/book/:id", DeleteBook);
+	// DELETE DATA ============================================================================
+
+	router.Run(":9999") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
+// CREATE BOOK
+func CreateBook(c *gin.Context) {
+	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
+  	defer db.Close()
+	if err != nil {
+		log.Fatal("DB CONNECTION ERROR");
+	}
+	fmt.Println("DATABASE CONNECTION SUCCESS");
+
+	var book book.Book
+	c.ShouldBindJSON(&book)
+	db.Create(&book)
+}
+
+// UPDATE BOOK
+func UpdateBook(c *gin.Context) {
+	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
+  	defer db.Close()
+	if err != nil {
+		log.Fatal("DB CONNECTION ERROR");
+	}
+	fmt.Println("DATABASE CONNECTION SUCCESS");
+
+	var books book.Book
+	id := c.Param("id");
+	db.Debug().First(&books, id)
+	c.ShouldBindJSON(&books)
+
+	fmt.Println("CEK BOOK :",books)
+	db.Save(&books)
+	// books.Title = books.Title
+}
+
+// DELETE BOOK
+func DeleteBook(c *gin.Context) {
+	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
+  	defer db.Close()
+	if err != nil {
+		log.Fatal("DB CONNECTION ERROR");
+	}
+	fmt.Println("DATABASE CONNECTION SUCCESS");
+
+	var books book.Book
+	id := c.Param("id");
+	db.Debug().Delete(&books, id)
+}
