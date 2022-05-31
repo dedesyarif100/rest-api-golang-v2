@@ -2,28 +2,38 @@ package main
 
 import (
 	// "errors"
+	// "database/sql"
 	"fmt"
 	"log"
+
 	// "net/http"
-	"rest-api-golang/book"
+	// "rest-api-golang/book"
 	"rest-api-golang/handler"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	// _ "github.com/go-sql-driver/mysql"
+	// "github.com/jinzhu/gorm"
 	// "time"
 	// "reflect"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func main() {
-	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
-  	defer db.Close()
+	// db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
+  	// defer db.Close()
+	// if err != nil {
+	// 	log.Fatal("DB CONNECTION ERROR");
+	// }
+	// fmt.Println("DATABASE CONNECTION SUCCESS");
 
+	dsn := "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("DB CONNECTION ERROR");
 	}
-
-	fmt.Println("DATABASE CONNECTION SUCCESS");
+	fmt.Println("SUCCESS");
 
 	// CRUD
 	// CREATE DATA FROM MIGRATION ==============================================================================
@@ -82,15 +92,34 @@ func main() {
 		// TABLE USER
 			// db.AutoMigrate(&book.User{});
 			// nameUser := []string{"USER A", "USER B", "USER C", "USER D", "USER E", "USER F"}
+			// gender := []string{"MALE", "FEMALE", "MALE", "FEMALE", "MALE", "FEMALE"}
+			// role := []string{"superadmin", "superadmin", "admin", "admin", "user", "user"}
 			// // ageUser := []int{22, 22}
-			// for _, data := range nameUser {
+			// for key, data := range nameUser {
 			// 	insertData := book.User{}
 			// 	insertData.Name = data
 			// 	insertData.Age = 22
+			// 	insertData.Gender = gender[key]
+			// 	insertData.Role = role[key]
 			// 	err = db.Create(&insertData).Error
 			// 	if err != nil {
 			// 		fmt.Println("==========================")
-			// 		fmt.Println("Error creating ORDERS record FROM MIGRATION")
+			// 		fmt.Println("Error creating USERS record FROM MIGRATION")
+			// 		fmt.Println("==========================")
+			// 	}
+			// }
+
+		// TABLE API USER
+			// var ApiUser []book.ApiUser
+			// db.AutoMigrate(&book.ApiUser{})
+			// nameApiUser := []string{"API USER A", "API USER B", "API USER C", "API USER D", "API USER E", "API USER F"}
+			// for _, data := range nameApiUser {
+			// 	insertData := book.ApiUser{}
+			// 	insertData.Name = data
+			// 	err = db.Create(&insertData).Error
+			// 	if err != nil {
+			// 		fmt.Println("==========================")
+			// 		fmt.Println("Error creating APIUSERS record FROM MIGRATION")
 			// 		fmt.Println("==========================")
 			// 	}
 			// }
@@ -126,6 +155,22 @@ func main() {
 			// 	insertData.BookId = books[key].ID
 			// 	insertData.Name = data
 			// 	insertData.Number = numberCards[key]
+			// 	err = db.Create(&insertData).Error
+			// 	if err != nil {
+			// 		fmt.Println("==========================")
+			// 		fmt.Println("Error creating CREDIT CARDS record FROM MIGRATION")
+			// 		fmt.Println("==========================")
+			// 	}
+			// }
+
+		// TABLE PIZZAS
+			// db.AutoMigrate(&book.Pizza{})
+			// namePizza := []string{"pepperoni", "hawaiian", "hawaiian"}
+			// sizePizza := []string{"small", "medium", "xlarge"}
+			// for key, data := range namePizza {
+			// 	insertData := book.Pizza{}
+			// 	insertData.Pizza = data
+			// 	insertData.Size = sizePizza[key]
 			// 	err = db.Create(&insertData).Error
 			// 	if err != nil {
 			// 		fmt.Println("==========================")
@@ -249,8 +294,23 @@ func main() {
 		// err = db.Debug().Find(&books, map[string]any{"rating": 6}).Error
 
 	// FirstOrInit
+		// var books []book.Book
+		// db.Debug().FirstOrInit(&books, book.Book{Title: "DEDE"})
 		// err = db.Debug().Where(book.Book{Title: "RIAND"}).FirstOrInit(&books).Error
 		// err = db.Debug().FirstOrInit(&books, map[string]interface{}{"title": "RIAND"}).Error
+		// db.Debug().Where(book.Book{Title: "DEDE"}).Attrs(book.Book{Age: 22}).FirstOrInit(&books)
+		// db.Debug().Where(book.Book{Title: "DEDE"}).Attrs("age", 22).FirstOrInit(&books)
+		// for _, data := range books {
+		// 	fmt.Println("---------------------------------")
+		// 	fmt.Println("ID  		:",data.ID)
+		// 	fmt.Println("TITLE	  	:",data.Title)
+		// 	fmt.Println("AGE  		:",data.Age)
+		// 	fmt.Println("DESCRIPTION  	:",data.Description)
+		// 	fmt.Println("PRICE  		:",data.Price)
+		// 	fmt.Println("RATING  	:",data.Rating)
+		// 	fmt.Println("DISCOUNT  	:",data.Discount)
+		// 	fmt.Println("---------------------------------")
+		// }
 
 	// Attrs
 		// err = db.Debug().Where(book.Book{Title: "non_existing"}).Attrs(book.Book{Rating: 2}).FirstOrInit(&books).Error
@@ -261,10 +321,61 @@ func main() {
 		// err = db.Debug().Where(book.Book{Title: "DEDE"}).Assign(book.Book{Rating: 111}).FirstOrInit(&books).Error
 
 	// FirstOrCreate
-		// err = db.Debug().FirstOrCreate(&books, book.Book{Title: "non_existing"}).Error
+		// var books []book.Book
+		// db.Debug().FirstOrCreate(&books, book.Book{Title: "non_existing"})
 		// err = db.Debug().Where(book.Book{Title: "DEDE"}).FirstOrCreate(&books).Error
+		// err = db.Debug().Where(book.Book{Title: "DEDE"}).Attrs(book.Book{Price: 2}).FirstOrCreate(&books).Error
+		// for _, data := range books {
+		// 	fmt.Println("---------------------------------")
+		// 	fmt.Println("ID  		:",data.ID)
+		// 	fmt.Println("TITLE	  	:",data.Title)
+		// 	fmt.Println("AGE  		:",data.Age)
+		// 	fmt.Println("DESCRIPTION  	:",data.Description)
+		// 	fmt.Println("PRICE  		:",data.Price)
+		// 	fmt.Println("RATING  	:",data.Rating)
+		// 	fmt.Println("DISCOUNT  	:",data.Discount)
+		// 	fmt.Println("---------------------------------")
+		// }
 
-	// Advanced Query
+	// Iteration
+		// rows, err := db.Debug().Model(&book.User{}).Where("name = ?", "USER A").Rows()
+		// defer rows.Close()
+		// for rows.Next() {
+		// 	var users []book.User
+		// 	db.ScanRows(rows, &users)
+		// 	for _, data := range users {
+		// 		fmt.Println("---------------------------------")
+		// 		fmt.Println("ID  		:",data.ID)
+		// 		fmt.Println("NAME	  	:",data.Name)
+		// 		fmt.Println("AGE  		:",data.Age)
+		// 		fmt.Println("GENDER  	:",data.Gender)
+		// 		fmt.Println("ROLE  		:",data.Role)
+		// 		fmt.Println("---------------------------------")
+		// 	}
+		// }
+
+	// FindInBatches
+		// var users []book.User
+		// result := db.Debug().Where("name = ?", "USER A").FindInBatches(&users, 100, func(tx *gorm.DB, batch int) error {
+		// 	for _, data := range users {
+		// 		fmt.Println("---------------------------------")
+		// 		fmt.Println("ID  		:",data.ID)
+		// 		fmt.Println("NAME	  	:",data.Name)
+		// 		fmt.Println("AGE  		:",data.Age)
+		// 		fmt.Println("GENDER  	:",data.Gender)
+		// 		fmt.Println("ROLE  		:",data.Role)
+		// 		fmt.Println("---------------------------------")
+		// 	}
+
+		// 	tx.Save(&users)
+		// 	// fmt.Println(tx.RowsAffected)
+		// 	// fmt.Println(batch)
+		// 	return nil
+		// })
+		// fmt.Println("RESULT ERROR 		:", result.Error)        // returned error
+		// fmt.Println("RESULT ROWS AFFECTED	:", result.RowsAffected) // processed records count in all batches
+
+	// ADVANCE QUERY
 		// SubQuery
 			// var orders []book.Order
 			// err = db.Debug().Find(&orders).Error
@@ -272,8 +383,112 @@ func main() {
 			// 	fmt.Println("ID		:", order.ID)
 			// 	fmt.Println("AMOUNT		:", order.Amount)
 			// 	fmt.Println("STATE		:", order.State)
+			// 	fmt.Println("-------------------------")
 			// }
-			// err = db.Debug().Where("amount > ?", db.Table("orders").Select("AVG(amount)").Where("state = ?", "paid").SubQuery()).Find(&orders).Error
+
+			// err = db.Debug().Where("amount > ?", db.Table("orders").Select("AVG(amount)").Where("state = ?", "PAID").SubQuery()).Find(&orders).Error
+			// db.Debug().Where("amount > (?)", db.Table("orders").Select("AVG(amount)")).Find(&orders)
+			// GET ALL DATA ORDERS -----------------------------
+				// for _, order := range orders {
+				// 	fmt.Println("ID 		:", order.ID)
+				// 	fmt.Println("AMOUNT 		:", order.Amount)
+				// 	fmt.Println("STATE 		:", order.State)
+				// 	fmt.Println("-----------------------")
+				// }
+			// GET ALL DATA ORDERS -----------------------------
+
+			// var users []book.User
+			// subQuery := db.Debug().Select("AVG(age)").Where("name LIKE ?", "%USER%").Table("users")
+			// db.Debug().Select("AVG(age) as umur").Group("name").Having("AVG(umur) > (?)", subQuery).Find(&users)
+			// GET ALL DATA USERS -----------------------------
+				// for _, user := range users {
+				// 	fmt.Println("ID 		:", user.ID)
+				// 	fmt.Println("NAME 		:", user.Name)
+				// 	fmt.Println("AGE 		:", user.Age)
+				// 	fmt.Println("GENDER 	:", user.Gender)
+				// 	fmt.Println("-----------------------")
+				// }
+			// GET ALL DATA USERS -----------------------------
+
+		// Group Conditions
+			// var pizzas []book.Pizza
+			// db.Debug().Where(
+			// 	db.Where("pizza = ?", "pepperoni").Where(db.Where("size = ?", "small").Or("size = ?", "medium")),
+			// ).Or(
+			// 	db.Where("pizza = ?", "hawaiian").Where("size = ?", "xlarge"),
+			// ).Find(&pizzas)
+			// println()
+			// for _, data := range pizzas {
+			// 	fmt.Println("-----------------------")
+			// 	fmt.Println("ID 		:",data.ID)
+			// 	fmt.Println("PIZZA 		:",data.Pizza)
+			// 	fmt.Println("SIZE 		:",data.Size)
+			// 	fmt.Println("-----------------------")
+			// }
+
+		// IN with multiple columns
+			// var users []book.User
+			// db.Debug().Where("(name, age, role) IN ?", [][]interface{}{{"USER A", 22, "superadmin"}, {"USER C", 22, "admin"}}).Find(&users)
+			// println()
+			// for _, data := range users {
+			// 	fmt.Println("----------------------------")
+			// 	fmt.Println("ID 		:",data.ID)
+			// 	fmt.Println("NAME 		:",data.Name)
+			// 	fmt.Println("AGE 		:",data.Age)
+			// 	fmt.Println("GENDER 		:",data.Gender)
+			// 	fmt.Println("ROLE 		:",data.Role)
+			// 	fmt.Println("----------------------------")
+			// }
+
+		// Named Argument
+			// var users []book.User
+			
+			// db.Debug().Where("name = @nameuser OR name = @nameuser", sql.Named("nameuser", "USER B")).Find(&users)
+
+			// db.Debug().Where("name = @nameuser AND age = @ageuser AND role = @roleuser", 
+			// 	sql.Named("nameuser", "USER A"), 
+			// 	sql.Named("ageuser", 22),
+			// 	sql.Named("roleuser", "superadmin"),
+			// ).Find(&users)
+			
+			// db.Debug().Where("name = @nameuser AND age = @ageuser AND role = @roleuser", 
+			// 	map[string]interface{}{
+			// 		"nameuser"	: "USER B",
+			// 		"ageuser"	: 22,
+			// 		"roleuser"	: "superadmin",
+			// 	},
+			// ).First(&users)
+			// println()
+			// for _, data := range users {
+			// 	fmt.Println("----------------------------")
+			// 	fmt.Println("ID 		:",data.ID)
+			// 	fmt.Println("NAME 		:",data.Name)
+			// 	fmt.Println("AGE 		:",data.Age)
+			// 	fmt.Println("GENDER 		:",data.Gender)
+			// 	fmt.Println("ROLE 		:",data.Role)
+			// 	fmt.Println("----------------------------")
+			// }
+
+		// Find To Map
+			// var users []book.User
+			// result := map[string]interface{}{}
+			// db.Debug().Model(&users).First(&result, "id = ?", 1)
+			// // fmt.Println(result)
+			// fmt.Println("----------------------------")
+			// for key, data := range result {
+			// 	fmt.Println(key,"  :",data)
+			// }
+			// fmt.Println("----------------------------")
+
+			// var results []map[string]interface{}
+			// db.Debug().Table("users").Find(&results)
+			// for _, result := range results {
+			// 	fmt.Println("-----------------------------------------------------")
+			// 	for key, data := range result {
+			// 		fmt.Println(key,"  :",data)
+			// 	}
+			// 	fmt.Println("-----------------------------------------------------")
+			// }
 
 		// Select
 			// err = db.Debug().Select("id, title").Find(&books).Error
@@ -293,20 +508,29 @@ func main() {
 			// err = db.Debug().Limit(2).Offset(3).Find(&books).Error
 
 		// Count
-			// var count int
+			// var count int64
+			// var orders []book.Order
 			// db.Debug().Model(&orders).Count(&count)
-			// // db.Model(&books).Count(&count)
 			// fmt.Println("JUMLAH DATA ORDERS :",count)
 
+			// var count int64
+			// var books []book.Book
 			// db.Debug().Where("description LIKE ?", "%vue%").Or("description LIKE ?", "%php%").Find(&books).Count(&count)
 			// fmt.Println("JUMLAH =", count)
 
+			// var count int64
 			// db.Debug().Model(&book.Book{}).Where("description LIKE ?", "%buku%").Count(&count)
 			// fmt.Println("JUMLAH DATA BOOKS YANG TERDAPAT DESKRIPSI PHP :",count)
 
+			// var count int64
 			// db.Debug().Table("books").Count(&count)
 			// fmt.Println("JUMLAH DATA BOOKS :",count)
 
+			// var count int64
+			// db.Debug().Model(&book.User{}).Distinct("gender").Count(&count)
+			// fmt.Println("JUMLAH DATA BOOKS :",count)
+
+			// var count int64
 			// db.Debug().Table("books").Select("count(distinct(created_at))").Count(&count)
 			// fmt.Println("JUMLAH DATA DISTICNT BOOKS :",count)
 
@@ -365,6 +589,40 @@ func main() {
 			// db.Debug().Raw("SELECT title, age FROM books WHERE title = ?", "RIAND").Scan(&books)
 			// fmt.Println(books)
 
+		// Smart Select Fields
+			// var users []book.User
+			// var apiUsers book.ApiUser
+			// db.Debug().Model(&users).Limit(3).Find(&apiUsers)
+			// fmt.Println(users)
+
+	// Raw SQL & SQL Builder
+		// var credit_cards []book.CreditCard
+		// db.Debug().Raw("SELECT * FROM credit_cards WHERE name = ?", "BRI").First(&credit_cards)
+		// for _, data := range credit_cards {
+		// 	fmt.Println("----------------------------")
+		// 	fmt.Println("ID 		:",data.ID)
+		// 	fmt.Println("BOOK ID 	:",data.BookId)
+		// 	fmt.Println("NAME 		:",data.Name)
+		// 	fmt.Println("NUMBER 		:",data.Number)
+		// 	fmt.Println("----------------------------")
+		// }
+
+		// var amount int
+		// db.Debug().Raw("SELECT SUM(amount) FROM orders WHERE state = ?", "UNKNOW").Scan(&amount)
+		// fmt.Println(amount)
+		// var tes = "tes"
+		handler.RunningQuery(db)
+		
+
+		// var users []book.User
+		// db.Raw("UPDATE users SET name = ? WHERE age = ? RETURNING id, name", "jinzhu", 20).Scan(&users)
+		// fmt.Println(users)
+
+	// Exec with Raw SQL
+		// db.Exec("DROP TABLE users")
+		// fmt.Println("SUCCESS")
+
+
 	// if err != nil {
 	// 	fmt.Println("==========================")
 	// 	fmt.Println("Error creating book record")
@@ -395,93 +653,37 @@ func main() {
 		// }
 	// GET ALL DATA BOOKS -----------------------------
 
-	// GET ALL DATA ORDERS -----------------------------
-		// for _, order := range orders {
-		// 	fmt.Println("ID 		:", order.ID)
-		// 	fmt.Println("AMOUNT 		:", order.Amount)
-		// 	fmt.Println("STATE 		:", order.State)
-		// 	fmt.Println("-----------------------")
-		// }
-	// GET ALL DATA ORDERS -----------------------------
-
 	// db.AutoMigrate(&book.Assets{});
 
 	// LIST EXAMPLE API ============================================================================
 	router := gin.Default();
-	v1 := router.Group("/v1");
-	v1.GET("/", handler.RootHandler);
-	v1.GET("/hello", handler.HelloHandler);
-	v1.GET("/books/:id/:title", handler.BooksHandler);
-	v1.GET("/query", handler.QueryHandler);
-	v1.POST("/books", handler.BooksPostHandler);
+	// 	v1 := router.Group("/v1");
+	// 	v1.GET("/", handler.RootHandler);
+	// 	v1.GET("/hello", handler.HelloHandler);
+	// 	v1.GET("/books/:id/:title", handler.BooksHandler);
+	// 	v1.GET("/query", handler.QueryHandler);
+	// 	v1.POST("/books", handler.BooksPostHandler);
 
-	v2 := router.Group("/v2");
-	v2.GET("/", handler.RootHandler);
-	v2.GET("/hello", handler.HelloHandler);
-	v2.GET("/books/:id/:title", handler.BooksHandler);
-	v2.GET("/query", handler.QueryHandler);
-	v2.POST("/books", handler.BooksPostHandler);
+	// 	v2 := router.Group("/v2");
+	// 	v2.GET("/", handler.RootHandler);
+	// 	v2.GET("/hello", handler.HelloHandler);
+	// 	v2.GET("/books/:id/:title", handler.BooksHandler);
+	// 	v2.GET("/query", handler.QueryHandler);
+	// 	v2.POST("/books", handler.BooksPostHandler);
 	// LIST EXAMPLE API ============================================================================
 
-	create := router.Group("/createExampleOne");
+	// manipulate := router.Group("/createExampleOne");
+	// GET ALL DATA BOOK ============================================================================
+		// manipulate.GET("/book", handler.GetAllBook);
+
 	// CREATE DATA ============================================================================
-	create.POST("/book", CreateBook);
-	// CREATE DATA ============================================================================
+		// manipulate.POST("/book", handler.CreateBook);
 
 	// UPDATE DATA ============================================================================
-	create.PUT("/book/:id", UpdateBook);
-	// UPDATE DATA ============================================================================
+		// manipulate.PUT("/book/:id", handler.UpdateBook);
 
 	// DELETE DATA ============================================================================
-	create.DELETE("/book/:id", DeleteBook);
-	// DELETE DATA ============================================================================
+		// manipulate.DELETE("/book/:id", handler.DeleteBook);
 
-	router.Run(":9999") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-}
-
-// CREATE BOOK
-func CreateBook(c *gin.Context) {
-	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
-  	defer db.Close()
-	if err != nil {
-		log.Fatal("DB CONNECTION ERROR");
-	}
-	fmt.Println("DATABASE CONNECTION SUCCESS");
-
-	var book book.Book
-	c.ShouldBindJSON(&book)
-	db.Create(&book)
-}
-
-// UPDATE BOOK
-func UpdateBook(c *gin.Context) {
-	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
-  	defer db.Close()
-	if err != nil {
-		log.Fatal("DB CONNECTION ERROR");
-	}
-	fmt.Println("DATABASE CONNECTION SUCCESS");
-
-	var books book.Book
-	id := c.Param("id");
-	db.Debug().First(&books, id)
-	c.ShouldBindJSON(&books)
-
-	fmt.Println("CEK BOOK :",books)
-	db.Save(&books)
-	// books.Title = books.Title
-}
-
-// DELETE BOOK
-func DeleteBook(c *gin.Context) {
-	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:43306)/rest-api-golang?charset=utf8&parseTime=True&loc=Local")
-  	defer db.Close()
-	if err != nil {
-		log.Fatal("DB CONNECTION ERROR");
-	}
-	fmt.Println("DATABASE CONNECTION SUCCESS");
-
-	var books book.Book
-	id := c.Param("id");
-	db.Debug().Delete(&books, id)
+		router.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

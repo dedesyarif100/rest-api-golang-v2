@@ -9,6 +9,15 @@ type User struct {
 	ID 			int
 	Name		string
 	Age			int
+	Gender 		string
+	Role 		string
+	CreatedAt	time.Time
+	UpdatedAt	time.Time
+}
+
+type ApiUser struct {
+	ID  		int
+	Name 		string
 	CreatedAt	time.Time
 	UpdatedAt	time.Time
 }
@@ -46,7 +55,20 @@ type CreditCard struct {
 	UpdatedAt	time.Time
 }
 
+type Pizza struct {
+	ID 			int
+	Pizza		string
+	Size		string
+	CreatedAt	time.Time
+	UpdatedAt	time.Time
+}
+
 type Result struct {
 	Date  time.Time
 	Total int64
+}
+
+type DataOne struct {
+	ID 			int
+	Name		string
 }
