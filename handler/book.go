@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"log"
+	"rest-api-golang/entity"
 	"rest-api-golang/book"
 	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
@@ -87,7 +88,7 @@ func GetAllBook(c *gin.Context) {
 	}
 	fmt.Println("DATABASE CONNECTION SUCCESS");
 
-	var books []book.Book
+	var books []entity.Book
 	var count int
 	db.Debug().Find(&books)
 	db.Debug().Find(&books).Count(&count)
@@ -130,7 +131,7 @@ func CreateBook(c *gin.Context) {
 	}
 	fmt.Println("DATABASE CONNECTION SUCCESS");
 
-	var book book.Book
+	var book entity.Book
 	c.ShouldBindJSON(&book)
 	db.Create(&book)
 }
@@ -144,7 +145,7 @@ func UpdateBook(c *gin.Context) {
 	}
 	fmt.Println("DATABASE CONNECTION SUCCESS");
 
-	var books book.Book
+	var books entity.Book
 	id := c.Param("id");
 	db.Debug().First(&books, id)
 	c.ShouldBindJSON(&books)
@@ -163,7 +164,7 @@ func DeleteBook(c *gin.Context) {
 	}
 	fmt.Println("DATABASE CONNECTION SUCCESS");
 
-	var books book.Book
+	var books entity.Book
 	id := c.Param("id");
 	db.Debug().Delete(&books, id)
 }

@@ -1,0 +1,5 @@
+package Conditions
+
+func Conditions() {
+	
+}
