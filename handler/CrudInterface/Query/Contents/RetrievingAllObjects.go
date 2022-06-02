@@ -1,4 +1,4 @@
-package RetrievingAllObjects
+package Contents
 
 import (
 	"fmt"

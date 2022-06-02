@@ -1,5 +1,0 @@
-package Conditions
-
-func InlineConditions() {
-	
-}

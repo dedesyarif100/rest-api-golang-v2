@@ -10,10 +10,10 @@ import (
 	// "rest-api-golang/book"
 	// "rest-api-golang/handler"
 
-	// "rest-api-golang/handler/CrudInterface/AdvanceQuery"
+	"rest-api-golang/handler/CrudInterface/AdvanceQuery"
 	// "rest-api-golang/handler/CrudInterface/Create"
 	// "rest-api-golang/handler/CrudInterface/Delete"
-	"rest-api-golang/handler/CrudInterface/Query"
+	// "rest-api-golang/handler/CrudInterface/Query"
 	// "rest-api-golang/handler/CrudInterface/RawSqlAndSqlBuilder"
 
 	// "rest-api-golang/migrations"
@@ -106,9 +106,10 @@ func main() {
 		// ** Create **
 
 		// ** Query **
-			Query.RunningQuery(db, err)
+			// Query.Query(db, err)
 
 		// ** Advanced Query **
+			AdvanceQuery.AdvanceQuery(db, err)
 
 		// ** Update **
 

@@ -1,5 +1,0 @@
-package joins
-
-func Joins() {
-	
-}

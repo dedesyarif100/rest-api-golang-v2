@@ -1,5 +1,0 @@
-package limitandoffset
-
-func LimitAndOffset() {
-	
-}

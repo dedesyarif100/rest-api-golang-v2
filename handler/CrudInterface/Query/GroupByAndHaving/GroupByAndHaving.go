@@ -1,5 +1,0 @@
-package groupbyandhaving
-
-func GroupByAndHaving() {
-	
-}
