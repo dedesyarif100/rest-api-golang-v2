@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	// "log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -13,11 +14,11 @@ func InWithMultipleColumns(db *gorm.DB, err any) {
 	println()
 	for _, data := range users {
 		fmt.Println("----------------------------")
-		fmt.Println("ID 		:",data.ID)
-		fmt.Println("NAME 		:",data.Name)
-		fmt.Println("AGE 		:",data.Age)
-		fmt.Println("GENDER 		:",data.Gender)
-		fmt.Println("ROLE 		:",data.Role)
+		fmt.Println("ID 		:", data.ID)
+		fmt.Println("NAME 		:", data.Name)
+		fmt.Println("AGE 		:", data.Age)
+		fmt.Println("GENDER 		:", data.Gender)
+		fmt.Println("ROLE 		:", data.Role)
 		fmt.Println("----------------------------")
 	}
 	println()

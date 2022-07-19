@@ -2,15 +2,16 @@ package AllMigrations
 
 import (
 	"fmt"
-	"rest-api-golang/entity"
-	"gorm.io/gorm"
+	"rest-api-golang-v2/entity"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func CreateOrdersTable(db *gorm.DB, err any) {
 	var users []entity.User
 	var books []entity.Book
-	db.AutoMigrate(&entity.Order{}); // UNTUK MIGRATE COLUMN / TABEL
+	db.AutoMigrate(&entity.Order{}) // UNTUK MIGRATE COLUMN / TABEL
 	amount := []int{10000, 20000, 30000, 40000, 50000, 60000}
 	state := []string{"PAID", "UNPAID", "UNKNOW", "PAID", "UNPAID", "UNKNOW"}
 	for key, data := range amount {

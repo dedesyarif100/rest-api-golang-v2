@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	"log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 

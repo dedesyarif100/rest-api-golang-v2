@@ -2,13 +2,13 @@ package AllMigrations
 
 import (
 	"fmt"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
 	"gorm.io/gorm"
 )
 
 func CreateUsersTable(db *gorm.DB, err any) {
 	var company []entity.Company
-	db.AutoMigrate(&entity.User{});
+	db.AutoMigrate(&entity.User{})
 	nameUser := []string{"USER A", "USER B", "USER C", "USER D", "USER E", "USER F"}
 	gender := []string{"MALE", "FEMALE", "MALE", "FEMALE", "MALE", "FEMALE"}
 	role := []string{"superadmin", "superadmin", "admin", "admin", "user", "user"}

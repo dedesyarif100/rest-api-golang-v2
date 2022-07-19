@@ -1,9 +1,10 @@
 package AllMigrations
 
 import (
-	"rest-api-golang/entity"
-	"gorm.io/gorm"
 	"fmt"
+	"rest-api-golang-v2/entity"
+
+	"gorm.io/gorm"
 )
 
 func CreateCreditCardsTable(db *gorm.DB, err any) {

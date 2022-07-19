@@ -3,8 +3,8 @@ package Contents
 import (
 	"fmt"
 	"log"
+	"rest-api-golang-v2/entity"
 	"gorm.io/gorm"
-	"rest-api-golang/entity"
 )
 
 func Select(db *gorm.DB, err any) {

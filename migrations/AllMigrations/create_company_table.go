@@ -2,12 +2,13 @@ package AllMigrations
 
 import (
 	"fmt"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
 func CreateCompanyTable(db *gorm.DB, err any) {
-	db.AutoMigrate(&entity.Company{}); // UNTUK MIGRATE COLUMN / TABEL
+	db.AutoMigrate(&entity.Company{}) // UNTUK MIGRATE COLUMN / TABEL
 	name := []string{"COMPANY A", "COMPANY B", "COMPANY C", "COMPANY D", "COMPANY E", "COMPANY F"}
 	for _, data := range name {
 		insertData := entity.Company{}

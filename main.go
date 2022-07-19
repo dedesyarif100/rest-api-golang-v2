@@ -1,7 +1,7 @@
 package main
 
 import (
-	"rest-api-golang/start"
+	"rest-api-golang-v2/start"
 )
 
 func main() {

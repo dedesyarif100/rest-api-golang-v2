@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	// "log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -15,13 +16,13 @@ func FirstOrCreate(db *gorm.DB, err any) {
 	println()
 	for _, data := range books {
 		fmt.Println("---------------------------------")
-		fmt.Println("ID  		:",data.ID)
-		fmt.Println("TITLE	  	:",data.Title)
-		fmt.Println("AGE  		:",data.Age)
-		fmt.Println("DESCRIPTION  	:",data.Description)
-		fmt.Println("PRICE  		:",data.Price)
-		fmt.Println("RATING  	:",data.Rating)
-		fmt.Println("DISCOUNT  	:",data.Discount)
+		fmt.Println("ID  		:", data.ID)
+		fmt.Println("TITLE	  	:", data.Title)
+		fmt.Println("AGE  		:", data.Age)
+		fmt.Println("DESCRIPTION  	:", data.Description)
+		fmt.Println("PRICE  		:", data.Price)
+		fmt.Println("RATING  	:", data.Rating)
+		fmt.Println("DISCOUNT  	:", data.Discount)
 		fmt.Println("---------------------------------")
 	}
 	println()

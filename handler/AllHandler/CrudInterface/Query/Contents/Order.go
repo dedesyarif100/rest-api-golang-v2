@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	"log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -17,7 +18,6 @@ func Order(db *gorm.DB, err any) {
 	// fmt.Println("DATA BOOK :",books)
 	// println()
 
-
 	// var books []entity.Book
 	// err = db.Debug().Order("age desc").Order("title").Find(&books).Error
 	// if err != nil {
@@ -27,13 +27,12 @@ func Order(db *gorm.DB, err any) {
 	// fmt.Println("DATA BOOK :",books)
 	// println()
 
-
 	var books []entity.Book
 	err = db.Debug().Order("age").Find(&books).Error
 	if err != nil {
 		log.Fatal("============= QUERY ERROR =============")
 	}
 	println()
-	fmt.Println("DATA BOOK :",books)
+	fmt.Println("DATA BOOK :", books)
 	println()
 }

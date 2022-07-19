@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	// "log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -14,7 +15,7 @@ func FindToMap(db *gorm.DB, err any) {
 	// fmt.Println(result)
 	fmt.Println("----------------------------")
 	for key, data := range result {
-		fmt.Println(key,"  :",data)
+		fmt.Println(key, "  :", data)
 	}
 	fmt.Println("----------------------------")
 
@@ -24,7 +25,7 @@ func FindToMap(db *gorm.DB, err any) {
 	for _, result := range results {
 		fmt.Println("-----------------------------------------------------")
 		for key, data := range result {
-			fmt.Println(key,"  :",data)
+			fmt.Println(key, "  :", data)
 		}
 		fmt.Println("-----------------------------------------------------")
 	}

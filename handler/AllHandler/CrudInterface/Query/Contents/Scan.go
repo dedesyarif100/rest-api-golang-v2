@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	"log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -16,7 +17,6 @@ func Scan(db *gorm.DB, err any) {
 	// println()
 	// fmt.Println("DATA BOOK :", books)
 	// println()
-
 
 	var books []entity.Book
 	err = db.Debug().Raw("SELECT title, age FROM books WHERE title = ?", "RIAND").Scan(&books).Error

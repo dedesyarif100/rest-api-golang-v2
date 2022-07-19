@@ -2,12 +2,13 @@ package AllMigrations
 
 import (
 	"fmt"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
 func CreateBooksTable(db *gorm.DB, err any) {
-	db.AutoMigrate(&entity.Book{}); // UNTUK MIGRATE COLUMN / TABEL
+	db.AutoMigrate(&entity.Book{}) // UNTUK MIGRATE COLUMN / TABEL
 	title := []string{"DEDE", "TRISULI", "HENDRS", "RIAND", "ALI", "MIRDAS", "MA'ARIF"}
 	age := []int{22, 25, 23, 26, 21, 20, 24}
 	description := []string{

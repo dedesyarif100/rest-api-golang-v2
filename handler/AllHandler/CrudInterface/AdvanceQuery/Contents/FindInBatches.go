@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	// "log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -13,11 +14,11 @@ func FindInBatches(db *gorm.DB, err any) {
 	result := db.Debug().Where("name = ?", "USER A").FindInBatches(&users, 100, func(tx *gorm.DB, batch int) error {
 		for _, data := range users {
 			fmt.Println("---------------------------------")
-			fmt.Println("ID  		:",data.ID)
-			fmt.Println("NAME	  	:",data.Name)
-			fmt.Println("AGE  		:",data.Age)
-			fmt.Println("GENDER  	:",data.Gender)
-			fmt.Println("ROLE  		:",data.Role)
+			fmt.Println("ID  		:", data.ID)
+			fmt.Println("NAME	  	:", data.Name)
+			fmt.Println("AGE  		:", data.Age)
+			fmt.Println("GENDER  	:", data.Gender)
+			fmt.Println("ROLE  		:", data.Role)
 			fmt.Println("---------------------------------")
 		}
 
@@ -27,7 +28,7 @@ func FindInBatches(db *gorm.DB, err any) {
 		return nil
 	})
 	println()
-	fmt.Println("RESULT ERROR 		:", result.Error)        // returned error
+	fmt.Println("RESULT ERROR 		:", result.Error)              // returned error
 	fmt.Println("RESULT ROWS AFFECTED	:", result.RowsAffected) // processed records count in all batches
 	println()
 }

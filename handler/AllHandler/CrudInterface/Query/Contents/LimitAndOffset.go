@@ -3,7 +3,8 @@ package Contents
 import (
 	"fmt"
 	"log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -23,6 +24,6 @@ func LimitAndOffset(db *gorm.DB, err any) {
 		log.Fatal("============= QUERY ERROR =============")
 	}
 	println()
-	fmt.Println("DATA BOOK :",books)
+	fmt.Println("DATA BOOK :", books)
 	println()
 }

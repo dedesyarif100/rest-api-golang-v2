@@ -3,7 +3,8 @@ package Conditions
 import (
 	"fmt"
 	"log"
-	"rest-api-golang/entity"
+	"rest-api-golang-v2/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -17,9 +18,8 @@ func StructAndMapConditions(db *gorm.DB, err any) {
 	// fmt.Println("DATA BOOK :",books)
 	// println()
 
-
 	// var books []entity.Book
-	// err = db.Debug().Where(map[string]interface{}{"title": "TRISULI", "price": "115000"}).Find(&books).Error // Map		
+	// err = db.Debug().Where(map[string]interface{}{"title": "TRISULI", "price": "115000"}).Find(&books).Error // Map
 	// if err != nil {
 	// 	log.Fatal("============= QUERY ERROR =============")
 	// }
@@ -27,13 +27,12 @@ func StructAndMapConditions(db *gorm.DB, err any) {
 	// fmt.Println("DATA BOOK :",books)
 	// println()
 
-
 	var books []entity.Book
-	err = db.Debug().Where([]int64{2, 4}).Find(&books).Error; // Slice of primary keys		
+	err = db.Debug().Where([]int64{2, 4}).Find(&books).Error // Slice of primary keys
 	if err != nil {
 		log.Fatal("============= QUERY ERROR =============")
 	}
 	println()
-	fmt.Println("DATA BOOK :",books)
+	fmt.Println("DATA BOOK :", books)
 	println()
 }
